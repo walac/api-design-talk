@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<!-- <html lang="en-US"> -->
+<html lang="en-US" class="fade">
+<!-- 
+  ^ a class of "fade" makes slides fade smoothly into one another
+ -->
+<!-- <html lang="en-US" class="nonumbers"> -->
+<!-- 
+  If you want no numbers on the slides add a "nonumbers" class 
+  to the HTML element.
+  Adding a class of "fade" will make slides fade into another. 
+-->
+<head>
+  <meta charset="UTF-8">
+  <title>Topics and tips in Web API Design</title>
+<!-- 
+  If you upload your slides to the web, ensure that you have 
+  a good title - this shows up in search results and social
+  media links
+ -->
+  <meta name="viewport" content="width=device-width, user-scalable=yes">
+  <link rel="stylesheet" href="themes/mozilla/styles/style.css">
+  <style type="text/css">
+    div[id$='bullets'].slide > div::after {
+      content: 'For Information only, do NOT present';
+      background: rgba(200,0,0,0.5);
+      color: #fff;
+      position: absolute;
+      top: 20px;
+      right: 0;
+      padding: 5px 20px;
+      transform: rotate(90deg) translate(52%,-150px);
+      border-radius: 5px;
+    }
+    .full div[id$='bullets'].slide > div::after {
+      animation: wiggle alternate 1s infinite;
+    }
+    @keyframes wiggle {
+      from {
+        transform: rotate(90deg) translate(52%,-150px);
+      }
+      to {
+        transform: rotate(90deg) translate(52%,-160px);
+      }
+    }
+    .demourl {
+      bottom: 10px;
+    }
+		dl.inline dd {
+  		display: inline;
+    	padding: 20px;
+		}
+		dl.inline dd:after{
+  		display: block;
+  		content: '';
+		}
+		dl.inline dt{
+  		display: inline-block;
+  		min-width: 100px;
+    	text-align: right;
+    	font-weight: bold;
+		}
+  </style>
+</head>
+<body class="list">
+
+  <header class="caption">
+    <h1>Topics and tips in Web API design</h1>
+    <p class="footer">
+      Wander Lairson Costa, 
+      <dl class="inline">
+        <dt>twitter</dt><dd><a href="http://twitter.com/">@walac</a></dd>
+        <dt>email</dt><dd><a href="mailto:wcosta@mozilla.com">wcosta@mozilla.com</a></dd>
+        <dt>github</dt><dd><a href="https://github.com/walac">https://github.com/walac</a></dd>
+        <dt>Slides</dt><dd><a href="https://walac.github.io/api-design-talk">
+          https://walac.github.io/api-deisgn-talk</a></dd>
+      </dl>
+    </p>
+  </header>
+  <aside class="talkdescription">
+    <p>This slide deck is using the shower system - roll over the previews to see the notes and click any slide to go into presentation mode. Then use keys to navigate. <button onclick="goFullScreen()">Go fullscreen</button></p>
+    <p class="abstract">
+      <strong>Abstract: </strong>
+       In this talk, I shall cover some important notes when designing and implementing your API. The talk is in the perspective of a RESTful API.
+    </p>
+  </aside>
+
+<!-- 
+    Simply copy the whole block for each slide you want.
+  Special slides get extra classes. Each slide needs an ID 
+  to allow for bookmarking and target jumping.
+-->
+
+  <div id="cover" class="slide"><div>
+    <section>
+      <header>
+        <h2>Topics and tips in Web API design</h2>
+      </header>
+      <img src="pictures/Firefox-logo.png" 
+           class="right" width="250"
+           alt="High-five at the Mozilla Festival!">
+			<h3>Wander Lairson Costa</h3>
+			<p>Software Engineer, Mozilla, Taskcluster Team</p>
+    	<p class="footer">
+      	<dl class="inline">
+        	<dt>twitter</dt><dd><a href="http://twitter.com/">@walac</a></dd>
+        	<dt>email</dt><dd><a href="mailto:wcosta@mozilla.com">wcosta@mozilla.com</a></dd>
+        	<dt>github</dt><dd><a href="https://github.com/walac">https://github.com/walac</a></dd>
+          <dt>Slides</dt><dd><a href="https://walac.github.io/api-design-talk">
+            https://walac.github.io/api-deisgn-talk</a></dd>
+      	</dl>
+      	<center>
+      	  We are hiring! <a href="https://careers.mozilla.org">https://careers.mozilla.org</a>
+      	</center>
+    	</p>
+    </section>
+  </div></div>
+
+<!-- end slide block -->
+
+  <div id="restful101" class="slide shout"><div>
+    <section>
+      <header>
+        <h2>RESTful 101</h2>
+      </header>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="restfulconcepts" class="slide"><div>
+    <section>
+      <header>
+        <h2>RESTful concepts</h2>
+      </header>
+      <p>{URI}/{RESOURCE/ENDPOINT}</p>
+      <ul>
+        <li>https://example.com/items</li>
+        <li>https://example.com/items/10</li>
+        <li><strike>https://example.com/items/sorted</strike></li>
+        <li>https://example.com/items?sorted=true</li>
+      </ul>
+      <ul>
+        <li>Idempotence</li>
+        <li>HTTP verbs</li>
+        <li>Errors code</li>
+      </ul>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="get" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP verbs: GET</h2>
+      </header>
+      <p> A GET request is an idempotent operation to retrieve data from the resource.</p>
+      <img src="pictures/give-the-data.jpg" 
+           alt="Give me the data" 
+           class="right shadow" height="300">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="post" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Verbs: POST</h2>
+      </header>
+      <p> A POST request adds new data to the resource.</p>
+      <img src="pictures/add-me.jpg" 
+           alt="Add data" 
+           class="right shadow" height="300">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="patch" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Verbs: PATCH</h2>
+      </header>
+      <p>PATCH verb requests data update on the resource. PATCH is idempotent.</p>
+      <img src="pictures/changed-my-mind.jpg" 
+           alt="Changed my mind" 
+           class="right shadow" height="300">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="put" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Verbs: PUT</h2>
+      </header>
+      <p>PUT = PATCH || POST.</p>
+      <img src="pictures/choose-wisely.jpg" 
+           alt="Choose wisely" 
+           class="right shadow" height="350">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="delete" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Verbs: DELETE</h2>
+      </header>
+      <p>It does what it says: remove a data from the resource.</p>
+      <figure class="right shadow">
+        <img src="pictures/destroy-everything.jpg" 
+             alt="Destroy everything"
+             height="300">
+      </figure>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="2xx" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Error Codes: 2xx, Success</h2>
+      </header>
+      <img src="pictures/success-kid.jpg" 
+           alt="Success kid" 
+           class="middle shadow" width="600">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="3xx" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Error Codes: 3xx, Redirection</h2>
+      </header>
+      <img src="pictures/wrong-neighborhood.jpg" 
+           alt="You came to the wrong neighborhood, motherfucker." 
+           class="middle shadow" height="300">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="4xx" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Error Codes: 4xx, Client error</h2>
+      </header>
+      <img src="pictures/client-error.jpg" 
+           alt="Client error" 
+           class="middle shadow" height="300">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="5xx" class="slide"><div>
+    <section>
+      <header>
+        <h2>HTTP Error Codes: 5xx, Internal Error</h2>
+      </header>
+      <img src="pictures/internal-error.jpg" 
+           alt="Internal error" 
+           class="middle shadow" height="300">
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="sameoriginpolicy" class="slide shout"><div>
+    <section>
+      <header>
+        <h2>Browsers same origin policy</h2>
+      </header>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="sameoriginpolicydemo" class="slide"><div>
+    <section>
+      <header>
+        <h2>Same origin policy</h2>
+      </header>
+      <img src="pictures/same-origin-policy.jpg" class="middle" height="350" 
+           alt="Same origin policy">
+      <small class="credits">
+        <a href="http://tinyurl.com/j8yr6sq">http://tinyurl.com/j8yr6sq</a>
+      </small>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+   <div id="cors" class="slide"><div>
+    <section>
+      <header>
+        <h2>Be aware of CORS</h2>
+      </header>
+      <img src="pictures/cors.png" class="middle" height="320" 
+           alt="CORS">
+      <small class="credits">
+        <a href="http://tinyurl.com/z6s7pm9">http://tinyurl.com/z6s7pm9</a>
+      </small>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+   <div id="corstips" class="slide"><div>
+    <section>
+      <header>
+        <h2>Tips on CORS implementations</h2>
+      </header>
+      <ul>
+        <li>Some requests require web server to response to a preflight (OPTION) request.</li>
+        <li>Web server can control allowed domains, request and exposed headers.</li>
+        <li>If your API needs a session key, make sure the web app stores it in a [local|session]Storage.</li>
+        <li><a href="https://github.com/taskcluster/cors-proxy">Cors proxy</a>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="general" class="slide shout"><div>
+    <section>
+      <header>
+        <h2>General Design guidelines</h2>
+      </header>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="json" class="slide"><div>
+    <section>
+      <header>
+        <h2>Powered by JSON schemas</h2>
+      </header>
+      <figure class="right shadow frame">
+        <img src="pictures/xml.jpg" 
+             alt="XML"
+             height="200">
+      </figure>
+      <ul>
+        <li>Request parameters (except GET)</li>
+        <li>Response</li>
+        <li>Data validation</li>
+        <li>Automated documentation</li>
+        <li>Client bindings</li>
+      </ul>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="programminglanguage" class="slide"><div>
+    <section>
+      <header>
+        <h2>Choose your programming language wisely</h2>
+      </header>
+      <ul>
+        <li>Dynamic vs static type</li>
+        <li>Compiled vs byte code</li>
+        <li>Return codes vs exception handling</li>
+        <li>Functional vs Procedural vs Object oriented</li>
+      </ul>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="doc" class="slide"><div>
+    <section>
+      <header>
+        <h2>Write great documentation</h2>
+      </header>
+      <ul>
+        <li>Reference docs</li>
+        <li>Tutorials</li>
+        <li>Code samples</li>
+        <li>Screencasts</li>
+        <li>Mailing lists</li>
+        <li>Open the source, Luke</li>
+      </ul>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="thanks" class="slide"><div>
+    <section>
+      <header>
+        <h2>Thanks</h2>
+      </header>
+      <img src="pictures/mozillaoverview/redpanda.jpg" class="right" alt="Red panda (Firefox)">
+      <ul class="nobull">
+        <li><a href="mailto:wcosta@mozilla.com">wcosta@mozilla.com</a>
+        <li><a href="http://twitter.com/walac00">@walac00</a></li>
+        <li><a href="https://github.com/walac">https://github.com/walac</a></li>
+        <li><strong>Slides</strong>: <a href="https://walac.github.io/api-design-talk">
+            https://walac.github.io/api-design-talk</a></li>
+      </ul>
+      <small class="credits">
+        <a href="http://www.flickr.com/photos/yortw/5798336827/">Photo by Yortw</a>
+      </small>
+
+    <footer class="notes">
+    </footer>
+
+    </section>
+  </div></div>
+
+  <script src="scripts/script.js"></script>
+  <!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
+</body>
+</html>
